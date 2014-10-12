@@ -187,3 +187,66 @@ console.log(todo1); // Logs: {"title": "Title set through...", "completed": "tru
 **Note**: Notice that to set a single attribute through *Model.set()*, the target
 attribute is passed in as a string, as is its value. To set a map of attributes, the object
 is passed in as one would when setting the defaults values or when creating a model.
+
+##### Listening for changes to the Model
+
+If you want to receive a notification when  a Backbone model changes,
+you can bind a listener to the model for its *change* event. A convenient place
+to add listeners is in the *initialize( )* function.
+You can also listen for changes on individual attributes in a model.
+
+**General changes**
+```javascript
+var Todo = Backbone.Model.extend({
+    initialize: function(){
+        console.log("This model has been initialized!");
+        // add the listener for any changes
+        this.on('change', function(){
+            console.log('Values for this model have been changed!');
+        });
+    }
+});
+
+var todo1 = new Todo();
+todo1.set('title', "Bazinga!");
+console.log(todo1);
+
+todo1.set('completed', true);
+console.log(todo1.get('completed'));
+
+// The above will log:
+// This model has been initialized!
+// Values for this model have been changed!
+// {"title": "Bazinga"}
+// Values for this model have been changed!
+// true
+```
+
+**Individual changes**
+```javascript
+var Todo = Backbone.Model.extend({
+    initialize: function(){
+        console.log("This model has been initialized!");
+        // add the listener for any changes
+        this.on('change:title', function(){ // notice the difference here by specifying the attribute. Any change to other attributes will not trigger the listener!!!
+            console.log('Values for the title attribute have been changed!');
+        });
+    },
+
+    // We can also declare a specific function to set attributes to trigger the listener above
+    setTitle: function (newTitle) {
+        this.set({title: newTitle});
+    }
+});
+
+var todo1 = new Todo();
+
+// both of the following changes trigger the listener
+todo1.set('title', 'Normal setter');
+todo1.set('setTitle function');
+
+// The above will log:
+// This model has been initialized!
+// Values for the title attribute have been changed!
+// Values for the title attribute have been changed!
+```
