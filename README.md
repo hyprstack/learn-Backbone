@@ -61,7 +61,7 @@ var todo2 = new Todo({
 ```
 ##### Initialization of the model
 
-The *initialize()* method is called when a new instance of a model is created.
+The *initialize( )* method is called when a new instance of a model is created.
 Its use is optional, but it's best practice to use it.
 Here is why:
 
@@ -75,3 +75,115 @@ var Todo = Backbone.Model.extend({
 var todo1 = new Todo();
 // Logs: This model has been initialized
 ```
+
+##### Setting default values in the model
+
+There are times when you want your model to have a set of default values.
+You can do this by using a property called *defaults* in your model.
+
+```javascript
+var Todo = Backbone.Model.extend({
+    defaults: {
+        title: "",
+        completed: false
+    }
+});
+
+// Now when you create a new instance of the model it will be set with those default values
+
+var todo1 = new Todo();
+
+console.log(JSON.stringify(todo1)); // Logs: {"title": "", "completed": "false"}
+
+
+// You can override some or all of the default values by setting the values in the new instance of the model
+var todo2 = new Todo({
+    title: "Say Hello",
+    completed: true
+});
+console.log(JSON.stringify(todo2)); // Logs: {"title": "Say Hello", "completed": 'true'}
+```
+
+##### Getters and Setters
+
+*Model.get( )*
+
+Model.get( ) provides easy access to a models attributes:
+
+```javascript
+var Todo = Backbone.Model.extend({
+    defaults: {
+        title: "",
+        completed: false
+    }
+});
+
+var todo1 = new Todo();
+console.log(todo1.get('title')); // Logs: ""
+console.log(todo1.get('completed')); // Logs: "false"
+```
+To use Model.get( ) simply replace "Model" with the name
+of your new model instance (in our example - todo1) and pass
+the name/key of the attribute as string to the *get* method (in our example -
+  title and completed).
+
+If you need to read or clone all of a model's **data attributes**, use
+its *toJSON( )* method. This method returns a copy of the attributes as an
+object (not a JSON string, despite its name).
+
+```javascript
+var Todo = Backbone.Model.extend({
+    defaults: {
+        title: "",
+        completed: false
+    }
+});
+
+var todo1 = new Todo();
+var todo1Attributes = todo1.toJSON();
+console.log(todo1Attributes); // Logs: {"title": "", "completed": "false"}
+```
+---
+*Model.set( )*
+
+Model.set( ) sets a hash containing one or more attributes on the model.
+When any of these attributes alter the sate of the model, a change event is triggered
+on it. Change events for each attribute are also triggered and
+can be bound to the model (such as *change:name*, *change:age*).
+
+```javascript
+var Todo = Backbone.Model.extend({
+    defaults: {
+        title: "",
+        completed: false
+    }
+});
+
+var todo1 = new Todo();
+todo1.set("title", "Title set through model.set()");
+console.log(set1); // Logs: {"title": "Title set through model.set()", "completed": "false"}
+```
+
+Setting map of attributes through Model.set( )
+
+```javascript
+var Todo = Backbone.Model.extend({
+    defaults: {
+        title: "",
+        completed: false
+    }
+});
+
+var todo1 = new Todo();
+
+todo1.set({
+  title: "Set through ...",
+  completed: true
+});
+
+console.log(todo1); // Logs: {"title": "Title set through...", "completed": "true"}
+```
+
+**Note**: Notice that to set a single attribute through *Model.set()*, the target
+attribute is passed in as a string, as is its value. To set a map of attributes, the object
+is passed in as one would when setting the defaults values or when creating a model.
