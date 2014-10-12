@@ -2,17 +2,17 @@
 
 ### What is Backbone?
 
->Backbone, contrary to what many might believe is a lightweight JavaScript library, and not a framework,
+>Backbone, contrary to what many might think at first, is a lightweight JavaScript library, and not a framework,
 >that adds structure to your client-side code.
 
 ### What is it used for?
 
->Develpers usually use libraries like Backbone to to create *single-page applications*(SPA's).
+>Develpers usually use libraries like Backbone to create *single-page applications* (SPA's).
 
 ### What is a MVC?
 
->MVC stand for "Model View Controller".
->A number of moder JavaScript frameworks provide developers an easy path to organising their code using
+>MVC stands for "Model View Controller".
+>A number of modern JavaScript frameworks provide developers with an easy path to organising their code using
 >variations of a pattern known as MVC.
 
 **MVC seperates the concerns in an application into thee parts:**
