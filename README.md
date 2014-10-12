@@ -33,3 +33,45 @@ of data you can model.
 >It doesn't prescribe any specific template engine; while you are free to use
 >the microtemplating offered by Underscore.js (one of its dependencies), views
 >can bind to HTML constructed via your templating solution of choice.
+
+### Getting started.
+
+
+#### Models
+
+**Backbone models contain data for the application along with the
+logic around this data.**
+
+##### Creating a model
+
+If we wanted to create the concept of a todo list, with its attributes *title* and
+*completed*, we could do the following:
+
+```javascript
+var Todo = Backbone.Model.extend({});
+// We can then create our own new instance of a todo model with no values at all
+
+var todo1 = new Todo();
+
+// Or with some arbitrary data
+var todo2 = new Todo({
+  title: "Check this todo already as a title attribute",
+  completed: true
+});
+```
+##### Initialization of the model
+
+The *initialize()* method is called when a new instance of a model is created.
+Its use is optional, but it's best practice to use it.
+Here is why:
+
+```javascript
+var Todo = Backbone.Model.extend({
+    initialize: function(){
+        console.log("This model has been initialized!");
+    }
+});
+
+var todo1 = new Todo();
+// Logs: This model has been initialized
+```
