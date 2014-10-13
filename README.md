@@ -406,3 +406,4 @@ view1.setElement(button2);
 
 button1.trigger('click'); // call the trigger event
 button2.trigger('click'); // returns true ---> the console log from the click function
+```
