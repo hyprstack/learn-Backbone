@@ -304,5 +304,74 @@ However, it is possible to change objects of nested functions.
 >Views in Backbone don't contain HTML markup for your application. Instead they contain the logic
 >behind the presentation of the model's data to the user. This is achieved by using JavaScript
 >templating (example: Underscore microtemplating, Handlebars, etc.).
->A view's *render( )* method can be bound to a model's *chnage( )* event, enabling
+>A view's *render( )* method can be bound to a model's *change( )* event, enabling
 >the view to instantly reflect model changes without requiring a full page refresh.
+
+**To create a view simple extend *Backbone.View*.**
+
+```javascript
+var todoView = Backbone.View.extend();
+```
+
+##### What is "el"?
+
+The central property of a view is *el*. *el* is a reference to a DOM element.
+All views must have one!
+
+**The *el* property represents the markup portion of the view that will be rendered!**
+
+Views can use *el* to compose their element's content and then insert it into the DOM
+all at once, making for a faster rendering.
+
+There are two ways to associate a DOM element with a view:
+- by reference to an already existing element
+- creating a new element
+
+##### Creating a new element
+
+To create a new element for your view, set any combination of the following properties
+on the view: *tagName, id, class*. The framework will create a new element for you and a reference
+to it will be available at the *el* property.
+If nothing is specified, *tagName* will default to *div*.
+
+```javascript
+var todoView = Bakcbone.View.extend({
+    tagName: 'ul', // required, but defaults to div if not set
+    className: 'container', // optional
+    id: 'todos' //optional
+});
+
+var todoV1 = new todoView();
+console.log(todoV1.el); // Logs: <ul id="todos" class="container"></ul>
+```
+The preceeding code creates a new element but **DOES NOT** append it to the DOM.
+
+##### Referencing a element
+
+If an element already exists you can use *el* as a CSS selector that matches the element
+
+```javascript
+el: '#footer'
+```
+
+You can also set *el* to an existing element when creating the view.
+
+```javascript
+var V = new todoView({el:$('#footer')});
+```
+
+**Note:** When declaring a view you can define *options, el, tagName,id* and
+*className* as functions, if you want their values to be determined at runtime.
+
+##### $el and $()
+
+To invoke view logic on the *el* element and elements nested within it,
+Backbone does so by defining the **$el** property and **$( )** function.
+
+*view.$el* property is equivalent to *$(view.el)* (used to set element characteristics such as html, css, etc)
+
+**AND**
+
+*view.$(selector)* is equivalent to *$(view.el).find(selector)* (used to find subelements in the selected element)
+
+##### setElement
