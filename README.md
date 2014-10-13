@@ -299,6 +299,7 @@ console.log("Completed: " + todo1.get('completed'));
 function (validate function) are not changed.
 However, it is possible to change objects of nested functions.
 
+---
 #### Views
 
 >Views in Backbone don't contain HTML markup for your application. Instead they contain the logic
@@ -375,3 +376,33 @@ Backbone does so by defining the **$el** property and **$( )** function.
 *view.$(selector)* is equivalent to *$(view.el).find(selector)* (used to find subelements in the selected element)
 
 ##### setElement
+
+If you need to apply an existing view to a different DOM element, you can use *setElement*.
+
+Overriding *this.el* (the el for the current view) needs to both change the DOM reference and
+rebind event to the new element.
+
+*setElement* will create a cached **$el** reference for you.
+
+```javascript
+// create two dom elements representing buttons
+var button1 = $('<button></button>');
+var button2 = $('<button></button>');
+
+// Define a new view
+var View = Backbone.View.extend ({
+    events: {
+        click: function (e) {
+            console.log(view.el === e.target);
+        }
+    }
+});
+
+// Create a new instance of the view, applying it to button1
+var view1 = new View({el: button1});
+
+// Apply the view to button2 using setElement
+view1.setElement(button2);
+
+button1.trigger('click'); // call the trigger event
+button2.trigger('click'); // returns true ---> the console log from the click function
