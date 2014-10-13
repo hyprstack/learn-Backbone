@@ -250,3 +250,59 @@ todo1.set('setTitle function');
 // Values for the title attribute have been changed!
 // Values for the title attribute have been changed!
 ```
+
+##### Model Validation
+
+To validate the data in our model we can refer to the *model.validate( )* method.
+This method allows checking the attributes values **prior** to setting them, and occurs
+by default when the model is persisted via de *save( )* or *set( )* methods.
+When setting an attribute with the *set()* method, validation is called by
+passing in an object *{validate: true}* as an argument.
+
+When the attributes provided are true, nothing should be returned from validate.
+When an error occurs:
+- an *invalid* event is triggered on the model, setting the
+*validationError* property on the model with the value that is returned by this method.
+- *save( )* will not continue and the attributes of the model will not be modified on the server.
+
+```javascript
+var Todo = Backbone.model.extend({
+
+    defaults: {
+        completed: false
+    },
+
+    validate: function (attribs) {
+      if (attribs.title === undefined) {
+          return "Remember to set a title for your todo.";
+      }
+    },
+
+    initialize: function() {
+        console.log("Model has been initialized");
+        this.on("invalid", function (model, error) {
+            console.log(error);
+        });
+    }
+});
+
+var todo1 = new Todo ();
+
+todo1.set('completed', true, {validate: true});
+// Logs: "Remember to set a title for your todo."
+
+console.log("Completed: " + todo1.get('completed'));
+// Logs: Completed: false ---> the default value because validation failed.
+```
+
+**Note**: If validation fails the current values of the attributes parameter passed into the
+function (validate function) are not changed.
+However, it is possible to change objects of nested functions.
+
+#### Views
+
+>Views in Backbone don't contain HTML markup for your application. Instead they contain the logic
+>behind the presentation of the model's data to the user. This is achieved by using JavaScript
+>templating (example: Underscore microtemplating, Handlebars, etc.).
+>A view's *render( )* method can be bound to a model's *chnage( )* event, enabling
+>the view to instantly reflect model changes without requiring a full page refresh.
