@@ -431,3 +431,27 @@ A good convention is to return *this* at the end of render. This is good for two
 - Creates a list of elements without rendering and paints each of them individually, only to be drawn once the entire list is populated.
 
 ##### The events hash
+
+Backbone's event hash allows you to attach event listeners to either el-relative custom
+selectors, or directly to *el* if no selector is provided.
+
+An event takes the for of a *key/value* pair such as 'eventName selector': 'callbackFunction' and a number of DOM event types are supported.
+
+```javascript
+// A sample view
+var TodoView = Backbone.View.extend({
+    tagName: 'li',
+
+    // with an events hash containing DOM events specific to an item
+    events: {
+        'click .toggle': 'toggleCompleted', // click event on element with class name 'toggle' and callback function toggleCompleted
+        'dbclick label': 'edit', // double click event on a label with callback edit
+        'click .destroy': 'clear',
+        'blur .edit': 'close'
+    }
+});
+```
+
+Keep in mind that when defining the callback functions these must remain in scope of the your view.
+
+Within each callback function, *this* can be used to refer to the **TodoView** object, in the previous example.
