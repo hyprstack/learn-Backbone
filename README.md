@@ -455,3 +455,112 @@ var TodoView = Backbone.View.extend({
 Keep in mind that when defining the callback functions these must remain in scope of the your view.
 
 Within each callback function, *this* can be used to refer to the **TodoView** object, in the previous example.
+
+**More complete example of a view** no that we know the elements that form it!
+
+```javascript
+var TodoView = Backbone.View.extend({
+
+    tagName: 'li',
+
+    // Cache the template function for a single item
+    todoTpl: _.template( "An example template"),
+
+    events: {
+        'dbclick label': 'edit',
+        'keypress .edit': 'updateOnEnter'
+    }
+
+    // Render the titles of the todo item
+    render: function () {
+        this.$el.html( this.todoTpl( this.model.toJSON() ));
+        this.input = this.$('.edit');
+        return this;
+    }
+
+    // Callbacks
+    edit: function () {
+        // executed when label is dbclicked
+    },
+
+    updateOnEnter: function () {
+        // executed on each keypress when in todo mode, but we'll wait for enter to get in action
+    }
+});
+
+var todo1 = new TodoView();
+
+console.log(todo1.el); // logs <li></li>
+```
+---
+
+#### Collections
+
+Collections are sets of models, and you create them by extending **Backbone.Collection**, just
+as we've done for views and models.
+
+You can bind "change" events to be notified when any model in the collection has been modified, listen for "add" and "remove" events, fetch the collection from the server, and use a full suite of Underscore.js methods.
+
+Any event that is triggered on a model in a collection will also be triggered on the collection directly, for convenience. This allows you to listen for changes to specific attributes in any model in a collection, for example: documents.on("change:selected", ...)
+
+```javascript
+var Collection = Backbone.Collection.extend({});
+```
+
+When creating a collections you will also want to define a property specifying the type
+of model that your collection will contain, along with any instance properties required.
+
+```javascript
+var Todo = Backbone.Model.extend({
+    defaults: {
+        title: '',
+        completed: false
+    }
+});
+
+var todoCollection = Backbone.Collection.extend({
+    model: Todo
+});
+
+var myTodo = new Todo({title:'Bake cookies', id: 2});
+
+// pass array of models on collection instantiation
+var todos = new todoCollection([myTodo]);
+
+console.log("Collection size: " + todos.lenght); // Logs: Collection size: 1
+```
+##### Adding and removing models
+
+After a collection has been created you can add and remove models using the *add( )* and
+*remove( )* methods.
+
+**Note** that *add( )* and *remove( )* accept both individual models and lists of models.
+
+Also when using *add( )* on a collection, passing in *{merge: true}* causes the duplicate
+models to have their attributes merged into the existing models instead of being ignored!
+
+##### collection.add(models, [options])
+
+Add a model (or an array of models) to the collection, firing
+an "add" event. If a model property is defined, you may also pass
+raw attributes objects, and have them be vivified as instances of the model.
+Returns the added (or preexisting, if duplicate) models. Pass {at: index} to
+splice the model into the collection at the specified index. If you're adding models to the collection that are already in the collection, they'll be ignored, unless you pass {merge: true}, in which case their attributes will be merged into the corresponding models, firing any appropriate "change" events.
+
+```javascript
+var ships = new Backbone.Collection;
+
+ships.on("add", function(ship) {
+  alert("Ahoy " + ship.get("name") + "!");
+});
+
+ships.add([
+  {name: "Flying Dutchman"},
+  {name: "Black Pearl"}
+]);
+```
+Note that adding the same model (a model with the same id) to a collection more than once
+is a no-op.
+
+##### collection.remove(models, [options]) 
+Remove a model (or an array of models) from the collection, and returns them. Fires a "remove" event, which you can use silent to suppress. The model's index before removal is available to listeners as options.index.
