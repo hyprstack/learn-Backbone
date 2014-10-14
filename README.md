@@ -407,3 +407,27 @@ view1.setElement(button2);
 button1.trigger('click'); // call the trigger event
 button2.trigger('click'); // returns true ---> the console log from the click function
 ```
+
+##### Render ( )
+
+** *render ( )* is an optional function that defines the logic for rendering a template.**
+When using the default module **Underscore**, we can refer to the use of the
+*_.template* method to compile JavaScript templates into functions that can be evaluated for rendering.
+
+```javascript
+var Bookmark = Backbone.View.extend({
+    templ: _.template(...), // useful for rendering complicated bits of HTML from JSON data sources. http://underscorejs.org/#template
+    render: function() {
+
+        // sets whatever markup as the HTML content of the el DOM element using the $el property
+        this.$el.html(this.templ(this.model.toJSON() )); // toJSON returns a shallow copy of  the model's attributes. "arguments" can be used instead of toJSON ( )
+
+        return this; // A good convention is to return this at the end of render to enable chained calls.
+  }
+});
+```
+A good convention is to return *this* at the end of render. This is good for two main reasons:
+- Makes views easily reusable on other parent views.
+- Creates a list of elements without rendering and paints each of them individually, only to be drawn once the entire list is populated.
+
+##### The events hash
