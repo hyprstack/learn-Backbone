@@ -598,3 +598,25 @@ For instance, if your server sets a unique attribute on your model named userId,
 your model definition.
 
 The value of a model's **idAttribute** should be set by the server when the model is saved.
+
+##### Listening for events
+
+Because collections represent a group of items, we can listen for *add* and *remove*
+events which occur when models are added to or removed from a collection.
+
+```javascript
+var tdCol = new Backbone.Collection.extend();
+
+tdCol.on('add', function ( todo ) {
+  console.log("I should " + todo.get('title') + ". Have I done it before? " + (todo.get('completed') ? 'Yeah!': 'No!'));
+});
+
+tdCol.add([
+    { title: 'go to Jamaica', completed: false},
+    { title: 'go to America', completed: true}
+]);
+
+// The above logs:
+// I should go to Jamaica. Have I done it before? No!
+// I should go to America. Have I done it before? Yes!
+```
