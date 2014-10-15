@@ -620,3 +620,57 @@ tdCol.add([
 // I should go to Jamaica. Have I done it before? No!
 // I should go to America. Have I done it before? Yes!
 ```
+In addition we're also able to bind to a *change* event to listen for changes to any
+of the models in the collection.
+
+```javascript
+var tdCol = new Backbone.Collection();
+
+// log a message if a model in the collection changes
+
+tdCol.on("change:title", function (model) {
+    console.log('Changed my mind! I should ' + model.get('title'));
+});
+
+tdCol.add([
+    { title: 'go to Jamaica.', completed: false, id: 3 }
+]);
+
+var myTodo = tdCol.get(3);
+
+myTodo.set('title', 'go fishing');
+// Logs: Changed my mind! I should go fishing
+```
+
+jQuery-style event maps of the form *obj.on({ click: action })* can also be used. These
+can be clearer than using three separate calls to *.on* and should align better with
+the events hash in views:
+
+```javascript
+var Todo = Backbone.Model.extend({
+    defaults: {
+        title:"",
+        completed: false
+    }
+});
+
+var myTodo = new Todo ();
+myTodo.set({ title: "By cookies", completed: true });
+
+myTodo.on({
+    'change:title' : titleChanged, // calls function titleChanged on event change of the title
+    'change:completed': stateChange
+});
+
+function titleChange() {
+    console.log('The title was changed!');
+}
+
+function stateChanged() {
+    console.log('The state changed!');
+}
+
+myTodo.set({ title: "Bazinga!" });
+
+// Logs: The title was changed!
+```
