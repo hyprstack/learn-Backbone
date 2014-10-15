@@ -674,3 +674,5 @@ myTodo.set({ title: "Bazinga!" });
 
 // Logs: The title was changed!
 ```
+Backbone events also support an *once( )* method, which ensures that a callback fires only one time
+when a notification arrives. It is similar to node's *once* and jQuery's *one*
