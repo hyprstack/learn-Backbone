@@ -676,3 +676,36 @@ myTodo.set({ title: "Bazinga!" });
 ```
 Backbone events also support an *once( )* method, which ensures that a callback fires only one time
 when a notification arrives. It is similar to node's *once* and jQuery's *one*
+
+```javascript
+// Define an object with two counters
+var TodoCounter = { counterA: 0, counterB: 0 };
+// Mix in Backbone Events
+_.extend(TodoCounter, Backbone.Events);
+
+// Increment counterA, triggering an event
+var incrA = function(){
+  TodoCounter.counterA += 1;
+  // This triggering will not
+  // produce any effect on the counters
+  TodoCounter.trigger('event');
+};
+
+// Increment counterB
+var incrB = function(){
+  TodoCounter.counterB += 1;
+};
+
+// Use once rather than having to explicitly unbind
+// our event listener
+TodoCounter.once('event', incrA);
+TodoCounter.once('event', incrB);
+
+// Trigger the event for the first time
+TodoCounter.trigger('event');
+
+// Check out output
+console.log(TodoCounter.counterA === 1); // true
+console.log(TodoCounter.counterB === 1); // true
+```
+Counters A and B should only have been incremented once.
