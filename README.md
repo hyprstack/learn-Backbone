@@ -828,3 +828,155 @@ theBeatles.set([john, paul, george, pete]);
 // Updates any of John, Paul and Georges's attributes that may have
 // changed over the years.
 ```
+##### Underscore utility functions
+
+Backbone takes full advantage of its hard dependency on [Underscore](http://underscorejs.org/#),
+by making many of its utilities directly available on collections.
+
+**forEach: iterate over collections**
+
+```javascript
+var todos = new Backbone.Collection();
+
+todos.add([
+  { title: 'go to Belgium.', completed: false },
+  { title: 'go to China.', completed: false },
+  { title: 'go to Austria.', completed: true }
+]);
+
+// iterate over models in the collection
+todos.forEach(function(model){
+  console.log(model.get('title'));
+});
+// Above logs:
+// go to Belgium.
+// go to China.
+// go to Austria.
+```
+**sortBy(): sort a collection on a specific attribute**
+
+```javascript
+// sort collection
+var sortedByAlphabet = todos.sortBy(function (todo) {
+    return todo.get("title").toLowerCase();
+});
+
+console.log("- Now sorted: ");
+
+sortedByAlphabet.forEach(function(model){
+  console.log(model.get('title'));
+});
+// Above logs:
+// - Now sorted:
+// go to Austria.
+// go to Belgium.
+// go to China.
+```
+
+**map(): iterate through a collection, mapping each value through a transformation function**
+
+```javascript
+var count = 1;
+console.log(todos.map(function(model){
+  return count++ + ". " + model.get('title');
+}));
+// Above logs:
+//1. go to Belgium.
+//2. go to China.
+//3. go to Austria.
+min()/max(): retrieve item with the min or max value of an attribute
+
+todos.max(function(model){
+  return model.id;
+}).id;
+
+todos.min(function(model){
+  return model.id;
+}).id;
+pluck(): extract a specific attribute
+
+var captions = todos.pluck('caption');
+// returns list of captions
+filter(): filter a collection
+```
+
+**Filter by an array of model IDs**
+
+```javascript
+var Todos = Backbone.Collection.extend({
+  model: Todo,
+  filterById: function(ids){
+    return this.models.filter(
+      function(c) {
+        return _.contains(ids, c.id);
+      })
+  }
+});
+```
+**indexOf(): return the index of a particular item within a collection**
+
+```javascript
+var people = new Backbone.Collection;
+
+people.comparator = function(a, b) {
+  return a.get('name') < b.get('name') ? -1 : 1;
+};
+
+var tom = new Backbone.Model({name: 'Tom'});
+var rob = new Backbone.Model({name: 'Rob'});
+var tim = new Backbone.Model({name: 'Tim'});
+
+people.add(tom);
+people.add(rob);
+people.add(tim);
+
+console.log(people.indexOf(rob) === 0); // true
+console.log(people.indexOf(tim) === 1); // true
+console.log(people.indexOf(tom) === 2); // true
+```
+
+**any(): confirm if any of the values in a collection pass an iterator truth test**
+
+```javascript
+todos.any(function(model){
+  return model.id === 100;
+});
+
+// or
+todos.some(function(model){
+  return model.id === 100;
+});
+```
+
+**size(): return the size of a collection**
+
+```javascript
+todos.size();
+
+// equivalent to
+todos.length;
+```
+
+**isEmpty(): determine whether a collection is empty**
+
+```javascript
+var isEmpty = todos.isEmpty();
+```
+
+**groupBy(): group a collection into groups of like items**
+
+```javascritp
+var todos = new Backbone.Collection();
+
+todos.add([
+  { title: 'go to Belgium.', completed: false },
+  { title: 'go to China.', completed: false },
+  { title: 'go to Austria.', completed: true }
+]);
+
+// create groups of completed and incomplete models
+var byCompleted = todos.groupBy('completed');
+var completed = new Backbone.Collection(byCompleted[true]);
+console.log(completed.pluck('title'));
+// logs: ["go to Austria."]
+```
