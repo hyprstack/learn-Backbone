@@ -1015,6 +1015,24 @@ The default sync handler maps CRUD to REST like so:
 - patch → PATCH  `/collection/id`
 - delete → DELETE   `/collection/id`
 
+##### Options
+
+Each RESTful API method accepts a variety of options. Most importantly, all methods accept success and error callbacks that can be used
+to customize the handling of server responses.
+
+Specifying the *{patch: true}*  option to *Model.save( )* will cause it to use HTTP PATCH to send only the changed attributes to the server,
+ instead of the entire model -  that is *model.save(attrs, {patch: true})*
+
+```javascript
+// Save partial using PATCH
+model.clear().set({id: 1, a: 1, b: 2, c: 3, d: 4});
+model.save();
+model.save({b: 2, d: 4}, {patch: true});
+console.log(this.syncArgs.method);
+// 'patch'
+```
+ 
+
 ##### Fetching models from the server
 
 *Collections.fetch( )* retrieves a set of models from the server in the form of a JSON
