@@ -1214,3 +1214,27 @@ object.off(null, null, context);
 // Removes all callbacks on `object`.
 object.off();
 ```
+
+##### listenTo()/stopListening()
+
+**listenTo( )**
+
+*object.listenTo(other, event, callback)*
+
+Tell an **object** to listen to a particular event on an **other** object. The advantage of using this form,
+instead of `other.on(event, callback, object)`, is that **listenTo** allows the **object** to keep track of the events,
+and they can be removed all at once later on. The **callback** will always be called with **object** as context.
+
+`view.listenTo(model, 'change', view.render);`
+
+**stopListening( )**
+
+*object.stopListening([other], [event], [callback])*
+
+Tell an **object** to stop listening to events. Either call **stopListening** with no arguments to have the **object** remove
+all of its registered callbacks ... or be more precise by telling it to remove just the events it's listening to
+on a specific object, or a specific event, or just a specific callback.
+
+`view.stopListening();`
+
+`view.stopListening(model);`
