@@ -1043,3 +1043,28 @@ todo2.save(); // sends HTTP PUT to /todos/2
 
 todos.create({title: 'Try out code samples'}); // sends HTTP POST to /todos and adds to collection
 ```
+
+##### Deleting Models form the Server
+
+To remove a model from the containing collection, call the *destroy( )* method. *Model.destroy( )* will send an
+HTTP DELETE request to the collection's URL.
+
+```javascript
+var Todo = Backbone.Model.extend({
+  defaults: {
+    title: '',
+    completed: false
+  }
+});
+
+var TodosCollection = Backbone.Collection.extend({
+  model: Todo,
+  url: '/todos'
+});
+
+var todos = new TodosCollection();
+todos.fetch();
+
+var todo2 = todos.get(2);
+todo2.destroy(); // sends HTTP DELETE to /todos/2 and removes from collection
+```
