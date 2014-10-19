@@ -980,3 +980,66 @@ var completed = new Backbone.Collection(byCompleted[true]);
 console.log(completed.pluck('title'));
 // logs: ["go to Austria."]
 ```
+
+#### RESTful Persistence
+
+For most single-page applications, the models are derived from a data set residing on the server.
+This is an area in which Bakcbone dramatically simplifies the code you need to write to perfom RESTful
+synchronization with a server through a simple API on its models and collections.
+
+##### Fetching models from the server
+
+*Collections.fetch( )* retrieves a set of models from the server in the form of a JSON
+array by sending an HTTP GET request to the URL soecified by the collection's url property
+(which may be a function).
+When this data is received, a *set( )* will be executed to update the collection.
+
+```javascript
+var Todo = Backbone.Model.extend({
+  defaults: {
+    title: '',
+    completed: false
+  }
+});
+
+var TodosCollection = Backbone.Collection.extend({
+  model: Todo,
+  url: '/todos'
+});
+
+var todos = new TodosCollection();
+todos.fetch(); // sends HTTP GET to /todos
+```
+
+##### Saving Models to the Server
+
+Although Backbone can retrieve an entire Collection of models from the server at once,
+updates to models are done individually through the *save( )* method of the model.
+When *save* is called on a retrieved model, it constructs a URL and sends it an HTTP PUT to the server,
+appending the model's *id* to the *collection's* url.
+If it's a new instance of the model (no *id*) then an HTTP POST request is sent instead.
+*Collections.create( )* can be used to create a new model, add it to the collection, and send it to the server
+in a single method call.
+
+```javascript
+var Todo = Backbone.Model.extend({
+  defaults: {
+    title: '',
+    completed: false
+  }
+});
+
+var TodosCollection = Backbone.Collection.extend({
+  model: Todo,
+  url: '/todos'
+});
+
+var todos = new TodosCollection();
+todos.fetch();
+
+var todo2 = todos.get(2);
+todo2.set('title', 'go fishing');
+todo2.save(); // sends HTTP PUT to /todos/2
+
+todos.create({title: 'Try out code samples'}); // sends HTTP POST to /todos and adds to collection
+```
