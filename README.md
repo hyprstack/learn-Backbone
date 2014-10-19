@@ -987,10 +987,38 @@ For most single-page applications, the models are derived from a data set residi
 This is an area in which Bakcbone dramatically simplifies the code you need to write to perfom RESTful
 synchronization with a server through a simple API on its models and collections.
 
+##### Backbone.sync
+
+Backbone.sync is the function that Backbone calls every time it attempts to read or save a model to the server.
+By default, it uses jQuery.ajax to make a RESTful JSON request and returns a jqXHR. You can override it in order
+to use a different persistence strategy, such as WebSockets, XML transport, or Local Storage.
+
+The method signature of Backbone.sync is sync(method, model, [options])
+
+- method – the CRUD method ("create", "read", "update", or "delete")
+- model – the model to be saved (or collection to be read)
+- options – success and error callbacks, and all other jQuery request options
+
+With the default implementation, when Backbone.sync sends up a request to save a model, its attributes will be passed,
+serialized as JSON, and sent in the HTTP body with content-type application/json. When returning a JSON response,
+send down the attributes of the model that have been changed by the server, and need to be updated on the client.
+When responding to a "read" request from a collection (Collection#fetch), send down an array of model attribute objects.
+
+The sync function may be overriden globally as Backbone.sync, or at a finer-grained level, by adding a sync function to
+a Backbone collection or to an individual model.
+
+The default sync handler maps CRUD to REST like so:
+
+- create → POST   `/collection`
+- read → GET   `/collection[/id]`
+- update → PUT   `/collection/id`
+- patch → PATCH  `/collection/id`
+- delete → DELETE   `/collection/id`
+
 ##### Fetching models from the server
 
 *Collections.fetch( )* retrieves a set of models from the server in the form of a JSON
-array by sending an HTTP GET request to the URL soecified by the collection's url property
+array by sending an HTTP GET request to the URL specified by the collection's url property
 (which may be a function).
 When this data is received, a *set( )* will be executed to update the collection.
 
@@ -1017,6 +1045,7 @@ Although Backbone can retrieve an entire Collection of models from the server at
 updates to models are done individually through the *save( )* method of the model.
 When *save* is called on a retrieved model, it constructs a URL and sends it an HTTP PUT to the server,
 appending the model's *id* to the *collection's* url.
+**Returns a jqXHR if validation is successful and false otherwise.**
 If it's a new instance of the model (no *id*) then an HTTP POST request is sent instead.
 *Collections.create( )* can be used to create a new model, add it to the collection, and send it to the server
 in a single method call.
@@ -1047,7 +1076,12 @@ todos.create({title: 'Try out code samples'}); // sends HTTP POST to /todos and 
 ##### Deleting Models form the Server
 
 To remove a model from the containing collection, call the *destroy( )* method. *Model.destroy( )* will send an
-HTTP DELETE request to the collection's URL.
+HTTP DELETE request to the collection's URL (Backbone.sync).
+Returns a jqXHR object, or false if the model isNew. Accepts success and error callbacks in the options hash,
+which will be passed (model, response, options). Triggers a "destroy" event on the model, which will bubble up
+through any collections that contain it, a "request" event as it begins the Ajax request to the server, and a "sync"
+event, after the server has successfully acknowledged the model's deletion. Pass {wait: true} if you'd like to wait
+for the server to respond before removing the model from the collection.
 
 ```javascript
 var Todo = Backbone.Model.extend({
