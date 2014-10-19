@@ -1031,7 +1031,7 @@ model.save({b: 2, d: 4}, {patch: true});
 console.log(this.syncArgs.method);
 // 'patch'
 ```
- 
+
 
 ##### Fetching models from the server
 
@@ -1120,3 +1120,37 @@ todos.fetch();
 var todo2 = todos.get(2);
 todo2.destroy(); // sends HTTP DELETE to /todos/2 and removes from collection
 ```
+
+#### Backbone.Events
+
+Backbone.events is a module that can be mixed in to any object, giving the object the ability
+to bind and trigger custom named events!
+Events to have to be declared before they are bound, and may take passed arguments.
+
+```javascript
+var object = {};
+
+_.extend(object, Backbone.Events);
+
+object.on("alert", function(msg) {
+  alert("Triggered " + msg);
+});
+
+object.trigger("alert", "an event");
+```
+
+Mastering events is one of the quickest ways to become more productive with Backbone.
+
+Since Backbone is globally visible, it can be used as a simple event bus.
+
+```javascript
+Backbone.on('event', function() {console.log('Handled Backbone event');});
+Backbone.trigger('event'); // logs: Handled Backbone event
+```
+
+##### trigger
+
+*object.trigger(event, [*args])*
+
+Trigger callbacks for the given event, or space-delimited list of events.
+Subsequent arguments to trigger will be passed along to the event callbacks.
