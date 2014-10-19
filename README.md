@@ -1238,3 +1238,10 @@ on a specific object, or a specific event, or just a specific callback.
 `view.stopListening();`
 
 `view.stopListening(model);`
+
+##### Ghost Views
+> When you remove a view that had registered to be notified about events on a model, but you don't remove the model or call
+> **off** to remove the view's event handler, a problem arises. Since the model has a reference to the view's callback function, the
+> JavaScript garbage collector cannot remove the view from memory. This is called a *ghost view* and is a commom for of memeory leak since
+>the models generally tend to outlive the corresponding views during an application's lifecycle.
+** For further details on the topic visit** http://bit.ly/ZN0Sci
