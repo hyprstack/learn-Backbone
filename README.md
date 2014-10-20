@@ -1245,3 +1245,67 @@ on a specific object, or a specific event, or just a specific callback.
 > JavaScript garbage collector cannot remove the view from memory. This is called a *ghost view* and is a commom for of memeory leak since
 >the models generally tend to outlive the corresponding views during an application's lifecycle.
 ** For further details on the topic visit** http://bit.ly/ZN0Sci
+
+#### Events and Views
+
+Inside a view, there are two types of events you can listen for:
+
+- DOM events
+
+- Events triggered using the Event API.
+
+The differences in how views bind to these two events and the context in which their callbacks are invoked is important to understand:
+
+- Bind DOM events using the view's *event* property or using *jQuery.on( )*
+- Within callbacks bound using the events property, *this* refers to the view object.
+- Any callback bound directly using jQuery, will have *this* set to the handling DOM element
+- All DOM event callbacks are passed an *event* object by jQuery
+
+
+- In event API's, if you bind the event using *on( )* on the observed object, you can pass a context as the third argument.
+- If you bind the event using *listenTo( )*, then in the callback, *this* refers to the listener.
+- The arguments passed to Event API callbacks depend on the type of event.
+
+```javascript
+<div id="todo">
+    <input type='checkbox' />
+</div>
+```
+
+```javascript
+var View = Backbone.View.extend({
+
+    el: '#todo',
+
+    // bind to DOM event using events property
+    events: {
+        'click [type="checkbox"]': 'clicked',
+    },
+
+    initialize: function () {
+        // bind to DOM event using jQuery
+        this.$el.click(this.jqueryClicked);
+
+        // bind to API event
+        this.on('apiEvent', this.callback);
+    },
+
+    // 'this' is view
+    clicked: function(event) {
+        console.log("events handler for " + this.el.outerHTML);
+        this.trigger('apiEvent', event.type);
+    },
+
+    // 'this' is handling DOM element
+    jqueryClicked: function(event) {
+        console.log("jQuery handler for " + this.outerHTML);
+    },
+
+    callback: function(eventType) {
+        console.log("event type was " + eventType);
+    }
+
+});
+
+var view = new View();
+```
