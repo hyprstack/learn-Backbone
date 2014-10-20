@@ -456,7 +456,7 @@ Keep in mind that when defining the callback functions these must remain in scop
 
 Within each callback function, *this* can be used to refer to the **TodoView** object, in the previous example.
 
-**More complete example of a view** no that we know the elements that form it!
+**More complete example of a view** now that we know the elements that form it!
 
 ```javascript
 var TodoView = Backbone.View.extend({
