@@ -435,7 +435,7 @@ A good convention is to return *this* at the end of render. This is good for two
 Backbone's event hash allows you to attach event listeners to either el-relative custom
 selectors, or directly to *el* if no selector is provided.
 
-An event takes the for of a *key/value* pair such as 'eventName selector': 'callbackFunction' and a number of DOM event types are supported.
+An event takes the form of a *key/value* pair such as 'eventName selector': 'callbackFunction' and a number of DOM event types are supported.
 
 ```javascript
 // A sample view
