@@ -308,6 +308,8 @@ However, it is possible to change objects of nested functions.
 >A view's *render( )* method can be bound to a model's *change( )* event, enabling
 >the view to instantly reflect model changes without requiring a full page refresh.
 
+> Any visual element can be a view (example: button, list, even the entire screen). Views can be embeded in views.
+
 **To create a view simple extend *Backbone.View*.**
 
 ```javascript
@@ -1309,3 +1311,12 @@ var View = Backbone.View.extend({
 
 var view = new View();
 ```
+
+
+
+---
+
+### Resources
+
+- Youtube Backbone tutorial fo beginners - https://www.youtube.com/watch?v=jM8KE_Fa6JI
+- Addy Osmani's book on backbone: http://addyosmani.github.io/backbone-fundamentals/
