@@ -1316,7 +1316,15 @@ var View = Backbone.View.extend({
 var view = new View();
 ```
 
+##### Delegation in Backbone
 
+Under the hood, Backbone uses jQuery's "delegate"
+to wire up the events. So it's not that this is "like" jQuery, it is jQuery doing it for us.
+
+Once a View has it's el, whether through generation or assignment, the view's event
+ declarations are delegated via jQuery, scoped to the view's el.
+
+http://stackoverflow.com/questions/7802205/backbone-js-events-binding-like-delegate-in-jquery
 
 ---
 
