@@ -1354,7 +1354,7 @@ We begin by defining our generalised button.
       <div id="test-container"></div>
         <script type="text/template" id="send-button">
           	<button class="follow">
-      			<span class="msg"></span>
+      			<p class="msg"></p>
       			<div class="loader" style="display: none">loading</div>
       		</button>
         </script>
@@ -1390,7 +1390,7 @@ initialize: function(){
 },
 
 onClick: function(btn) {
-	setTimeout(_.bind(this.onSuccess, this, btn), 3000); // use underscore bind method, "this" is the context, "btn" is passing
+	setTimeout(_.bind(this.onSuccess, this, btn), 2000); // use underscore bind method, "this" is the context, "btn" is passing
   // is an argument, 3000 is the timer
 	console.log("Onclick Ajax");
 },
@@ -1426,7 +1426,7 @@ is its own view and still be able to call the basic functions without having to 
 
 ```javascript
 var BaseButtonView = Backbone.View.extend({
-	template: _.template($('#cta-ajax-button-test').html()),
+	template: _.template($('#send-button').html()),
 
 		events: {
             "click button": "sendAjax"
@@ -1454,37 +1454,37 @@ var BaseButtonView = Backbone.View.extend({
 
 			this.msg = $("p.msg", this.$el); // this.$el sets the context for each selected element. This means finding the selector for each button idividually
 			this.addMsg(this.textMsg); // we pass in the message from AjaxPretend
-			this.butn = $("button", this.$el); // "this.$el" is important once we had more buttons, so we target the specific button
+			this.butn = $("button", this.$el); // "this.$el" is important once we have more buttons, so we target the specific button
 
 		},
 
 		render: function() {
-	        this.$el.html(this.template());
-	        this.node.append(this.$el);
+      this.$el.html(this.template());
+      this.node.append(this.$el);
 
-	        console.log("rendered");
-	        return this; // A good convention is to return this at the end of render to enable chained calls.
-	    },
-      // here we define our message functions
-	    addMsg: function(sMsg)
-	    {
-	    	this.msg.html(sMsg); // by declaring the sMsg variable any message we define in AjaxPredent as the initial state message will be rendered in the button
-	    },
+      console.log("rendered");
+      return this; // A good convention is to return this at the end of render to enable chained calls.
+    },
+    // here we define our message functions
+    addMsg: function(sMsg)
+    {
+    	this.msg.html(sMsg); // by declaring the sMsg variable any message we define in AjaxPredent as the initial state message will be rendered in the button
+    },
 
-	    removeMsg: function () {
-    		this.addMsg("");
-    		console.log("Hiden");
-	    },
+    removeMsg: function () {
+  		this.addMsg("");
+  		console.log("Hiden");
+    },
 
-	    addSucMsg: function () {
-    		this.addMsg(this.succMsg);
-	    	console.log("Shown");
-	    },
+    addSucMsg: function () {
+  		this.addMsg(this.succMsg);
+    	console.log("Shown");
+    },
 
-	    addFailMsg: function () {
-    		this.addMsg(this.errMsg);
-	    	console.log("Shown");
-	    }
+    addFailMsg: function () {
+  		this.addMsg(this.errMsg);
+    	console.log("Shown");
+    }
 });
 ```
 
@@ -1496,7 +1496,53 @@ SendButtonView, we will define the ajax call function and add a loading state fu
 message while we wait for our ajax request to return
 
 ```javascript
+var SendButtonView = BaseButtonView.extend({ // notice that we extend from BaseButtonView now and not Backbone!
 
+	  initialize: function(options){
+      BaseButtonView.prototype.initialize.apply(this, [options]); // inherit from BaseButtonView
+      this.loader = $(".loader", this.$el); // declare spinner variable --> loader class was defined in the html
+      this.buttn = $("button", this.$el);
+    },
+
+    // lets say we wanted to add functionality to one of the function defined in BaseView.
+    // we'de need to define the function and then inherit from the parent one, and only then could we add functionality
+    addSucMsg: function(){
+      BaseButtonView.prototype.addSucMsg.apply(this);
+      // lets make our button green once the ajax response returns a success message.
+      this.buttn.css({"background-color": "green"});
+    },
+
+	  addLoader : function () {
+    	console.log("Loader");
+    	this.loader.css({"display": "block"});
+
+    },
+
+    sendAjax: function (event) {
+    	console.log("addMsgSuc");
+    	this.removeMsg();
+    	this._parent.onClick(this); // here we call the onClick function defined in AjaxPretend and pass-in the current context
+    	this.addLoader();
+    },
+
+    removeLoader: function () {
+    	this.loader.css({"display": "none"});
+    },
+
+    onSuccess: function() {
+    	if (this._parent.onSuccess) {
+    	this.removeLoader();
+			this.addSucMsg();
+    	}
+	},
+
+    onFailure: function() {
+    	if (this._parent.onFailure) {
+    		this.removeSpinner();
+    		this.addFailMsg();
+    	}
+    }
+});
 ```
 
 ---
