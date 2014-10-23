@@ -1321,11 +1321,50 @@ var view = new View();
 Under the hood, Backbone uses jQuery's "delegate"
 to wire up the events. So it's not that this is "like" jQuery, it is jQuery doing it for us.
 
-Once a View has it's el, whether through generation or assignment, the view's event
- declarations are delegated via jQuery, scoped to the view's el.
+Once a View has it's *el*, whether through generation or assignment, the view's event
+ declarations are delegated via jQuery, scoped to the view's *el*.
 
 http://stackoverflow.com/questions/7802205/backbone-js-events-binding-like-delegate-in-jquery
 
+##### Example Rendering, Extending and Inheritance in Views
+
+In this example we will be setting a button as a view and having the button simulate an Ajax call,
+changing the state of the button from its initial state, during the Ajax simulation and final state.
+
+We begin by defining our generalised button.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset = "utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+  <!-- We wont be adding any css style files -->
+  <!-- The inline styling you see here is a no-no for good practice, so avoid at all costs -->
+
+  <!-- Scripts -->
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
+  <script type="text/javascript" src="http://documentcloud.github.com/backbone/backbone-min.js"></script>
+
+</head>
+
+<body>
+      <div id="test-container"></div>
+        <script type="text/template" id="send-button">
+          	<button class="follow">
+      			<span class="msg"></span>
+      			<div class="loader" style="display: none">loading</div>
+      		</button>
+        </script>
+
+  <script type="text/javascript" src="views/AjaxSimul.js"></script>
+  <script type="text/javascript" src="views/BaseButtonView.js"></script>
+  <script type="text/javascript" src="views/SendButtonView.js"></script>
+</body>
+</html>
+```
 ---
 
 ### Resources
