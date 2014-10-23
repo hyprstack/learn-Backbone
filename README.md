@@ -1418,7 +1418,86 @@ $(document).ready(function(){
 });
 ```
 
+Now lets create our BaseButtonView.
 
+This View will contain all our basic functionality for our buttons if we were to create more buttons.
+This way any new button would inherit from this view and we could had any specific functionality to the button
+is its own view and still be able to call the basic functions without having to duplicate code.
+
+```javascript
+var BaseButtonView = Backbone.View.extend({
+	template: _.template($('#cta-ajax-button-test').html()),
+
+		events: {
+            "click button": "sendAjax"
+        },
+
+    	// set initial values for variables
+		_parent: null,
+		node: null,
+		errMsg: "",
+		succMsg: "",
+		textMsg: "",
+
+		initialize: function(options){ // by passing in options we get the functionality defined in AjaxPretend
+			console.log("Started!");
+			console.log(this.$el);
+			// get the values from AjaxPretend
+			this._parent = options.parent; // we defined "parent" in AjaxPretend and set it to "this"
+			this.node = options.node;
+			this.errMsg = options.failMsg; // here we're getting the default messages we set above
+			this.succMsg = options.successMsg;
+			this.textMsg = options.text;
+			this.render(); // and then we render it all
+
+      // we declare all our varible here!
+
+			this.msg = $("p.msg", this.$el); // this.$el sets the context for each selected element. This means finding the selector for each button idividually
+			this.addMsg(this.textMsg); // we pass in the message from AjaxPretend
+			this.butn = $("button", this.$el); // "this.$el" is important once we had more buttons, so we target the specific button
+
+		},
+
+		render: function() {
+	        this.$el.html(this.template());
+	        this.node.append(this.$el);
+
+	        console.log("rendered");
+	        return this; // A good convention is to return this at the end of render to enable chained calls.
+	    },
+      // here we define our message functions
+	    addMsg: function(sMsg)
+	    {
+	    	this.msg.html(sMsg); // by declaring the sMsg variable any message we define in AjaxPredent as the initial state message will be rendered in the button
+	    },
+
+	    removeMsg: function () {
+    		this.addMsg("");
+    		console.log("Hiden");
+	    },
+
+	    addSucMsg: function () {
+    		this.addMsg(this.succMsg);
+	    	console.log("Shown");
+	    },
+
+	    addFailMsg: function () {
+    		this.addMsg(this.errMsg);
+	    	console.log("Shown");
+	    }
+});
+```
+
+Now that we have a BaseView with the basic functionality we can define another view that will inheret and extend from this BaseView,
+adding specific functionality to the button in that view that is not available is the BaseView.
+
+So far no Ajax simulation will take place. We have yet to define a function for this. In the following view, which we will call
+SendButtonView, we will define the ajax call function and add a loading state function to our button, that will display a "loading"
+message while we wait for our ajax request to return
+
+```javascript
+
+```
 
 ---
 
