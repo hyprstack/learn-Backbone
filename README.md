@@ -1343,7 +1343,7 @@ We begin by defining our generalised button.
   <!-- We wont be adding any css style files -->
   <!-- The inline styling you see here is a no-no for good practice, so avoid at all costs -->
 
-  <!-- Scripts -->
+  <!-- Scripts / Our dependecies -->
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script type="text/javascript" src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
   <script type="text/javascript" src="http://documentcloud.github.com/backbone/backbone-min.js"></script>
@@ -1359,12 +1359,67 @@ We begin by defining our generalised button.
       		</button>
         </script>
 
+  <!-- Our script files situated in our views directory -->
+
   <script type="text/javascript" src="views/AjaxSimul.js"></script>
   <script type="text/javascript" src="views/BaseButtonView.js"></script>
   <script type="text/javascript" src="views/SendButtonView.js"></script>
 </body>
 </html>
 ```
+Our first javascript file will define our Ajax call and instantiate our views.
+
+**Each set of code is a seperate view/file**
+
+```javascript
+// Ajax simulation class
+var AjaxPretend = Backbone.View.extend({
+
+_button: null, // our button variable
+
+initialize: function(){
+
+	this._button = new SendButtonView({
+		node: $("#test-container"), // our target container
+		parent: this, // define this as the parent class
+		failMsg: "failed", // define our default message for failure
+		successMsg: "sent", // define our default message for success
+		text: "send" // define defau;t message for initial state of button
+	});
+
+},
+
+onClick: function(btn) {
+	setTimeout(_.bind(this.onSuccess, this, btn), 3000); // use underscore bind method, "this" is the context, "btn" is passing
+  // is an argument, 3000 is the timer
+	console.log("Onclick Ajax");
+},
+
+// for a success response
+onSuccess: function(btn) { // we declare btn so that it targets the clicked object
+	btn.onSuccess();
+	console.log("Ajax success");
+
+},
+
+// if we receive a failure response
+onFailure: function(btn) { // we declare btn so that it targets the clicked object
+	btn.onFailure();
+	console.log("Ajax failure");
+
+}
+});
+
+//  Now create an instance of this on document load so that our code is loaded and ready to be used.
+$(document).ready(function(){
+
+	var T = new AjaxPretend();
+
+});
+```
+
+
+
 ---
 
 ### Resources
