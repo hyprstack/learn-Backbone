@@ -330,10 +330,6 @@ There are two ways to associate a DOM element with a view:
 - by reference to an already existing element
 - creating a new element
 
->**A short note, that might seem silly, but can easily be overlooked if you are a beginner:**
-
->When defining *el*, this must be an element in the DOM and not an element in your template!
-
 ##### Creating a new element
 
 To create a new element for your view, set any combination of the following properties
