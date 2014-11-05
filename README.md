@@ -34,6 +34,37 @@ of data you can model.
 >the microtemplating offered by Underscore.js (one of its dependencies), views
 >can bind to HTML constructed via your templating solution of choice.
 
+#### Backbone Vs Knockout
+
+Knockout.js was first released in July 2010, and it follows the MVVM pattern. Unlike Backbone, Knockout provides bindings between sections of the user interface and the underlying data model, resulting in the UI updating dynamically when the model changes. In Backbone, this updating needs to be written by the developer. It can be downloaded from Knockoutjs.com,
+
+In Knockout, the data bindings are included in the HTML. In this example, firstName is the attribute from the
+model we want to display.
+
+```javascript
+<p>First name: <input data-bind="value: firstName" /></p>
+```
+
+The ViewModel is where the model is bound to the UI. When the ko.observable() function is used to define the
+attribute, the view will be automatically updated.
+
+```javascript
+var myViewModel = {
+firstName : ko.observable('James');
+};
+```
+
+When the model is defined, it is then bound to the UI using the applyBindings function.
+
+```javascript
+ko.applyBindings(myViewModel);
+```
+
+As you can see, it’s really easy to get started with Knockout, and it requires less JavaScript code compared to same type of app created in Backbone.js. It’s not without its drawbacks—more complex UI interactions can be difficult to get right.
+Although both frameworks provide structure to your JavaScript application, Backbone is mostly concerned with providing an MVC solution and tries to stay out of the user interface. Meanwhile, Knockout utilized the MVVM pattern for automatic user interface updates. Where Backbone excels is in how it deals with models, retrieving and persisting data using RESTful services. Accomplishing this in Knockout requires a lot of extra code. A project with a simple user interface and basic data models could benefit from using Knockout, but for more elaborate efforts, Backbone is a solid choice.
+
+
+
 ### Getting started.
 
 
@@ -1547,3 +1578,4 @@ var SendButtonView = BaseButtonView.extend({ // notice that we extend from BaseB
 
 - Youtube Backbone tutorial fo beginners - https://www.youtube.com/watch?v=jM8KE_Fa6JI
 - Addy Osmani's book on backbone: http://addyosmani.github.io/backbone-fundamentals/
+- Beginning Backbone.js: Learn how to enrich your javascript stack with backbone.js - by James Surge; Apress
