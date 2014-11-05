@@ -63,7 +63,34 @@ ko.applyBindings(myViewModel);
 As you can see, it’s really easy to get started with Knockout, and it requires less JavaScript code compared to same type of app created in Backbone.js. It’s not without its drawbacks—more complex UI interactions can be difficult to get right.
 Although both frameworks provide structure to your JavaScript application, Backbone is mostly concerned with providing an MVC solution and tries to stay out of the user interface. Meanwhile, Knockout utilized the MVVM pattern for automatic user interface updates. Where Backbone excels is in how it deals with models, retrieving and persisting data using RESTful services. Accomplishing this in Knockout requires a lot of extra code. A project with a simple user interface and basic data models could benefit from using Knockout, but for more elaborate efforts, Backbone is a solid choice.
 
+#### Backbone Vs Angular
 
+AngularJS was released in 2009 by Google. It takes an approach similar to Knockout, in that the data bindings are added directly to the HTML page. One of the main design goals of the framework is to remove DOM manipulation from the application logic. This leads to controllers and models being written in plain JavaScript rather than extending framework-defined versions. AngularJS can be downloaded from http://angularjs.org,
+
+Angular provides a number of ng-* attributes to use within your HTML to accomplish the data binding between the UI and the model. Where Backbone uses Underscore or other alternative templating libraries, Angular allows model data to be injected directly into the HTML source.
+The following snippet of HTML shows how a controller is a user for an HTML page, and the list of people in this controller are iterated through and displayed:
+
+```javascript
+<body ng-controller="AddressBookController">
+ <ul>
+ <li ng-repeat="person in people">
+{{person.name}}
+</li>
+</ul>
+```
+
+Written as a simple JavaScript object, the controller merely needs to allow the data to be retrieved for the view.
+
+```javascript
+function AddressBookController($scope) {
+  $scope.people = [
+   {"name": "James},
+   {"name": "Sarah},
+  ];
+}
+```
+
+Some developers might find that Angular is too opinionated, forcing you to write your application in a particular fashion.
 
 ### Getting started.
 
