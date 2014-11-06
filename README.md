@@ -34,6 +34,8 @@ of data you can model.
 >the microtemplating offered by Underscore.js (one of its dependencies), views
 >can bind to HTML constructed via your templating solution of choice.
 
+>Most other frameworks provide some built-in functionality to update the view when the model changes. Backbone is often considered a lower-level framework because all of this work has to be accomplished by the programmer using additional code. Some may see this as a negative, but it results in a more transparent view into how your application is actually working behind the scenes. Because you write the UI update code yourself, it is easier to debug when there are issues. This level of control is one of the most widely quoted reasons for developers using Backbone.
+
 #### Backbone Vs Knockout
 
 Knockout.js was first released in July 2010, and it follows the MVVM pattern. Unlike Backbone, Knockout provides bindings between sections of the user interface and the underlying data model, resulting in the UI updating dynamically when the model changes. In Backbone, this updating needs to be written by the developer. It can be downloaded from Knockoutjs.com,
@@ -91,6 +93,48 @@ function AddressBookController($scope) {
 ```
 
 Some developers might find that Angular is too opinionated, forcing you to write your application in a particular fashion.
+
+#### Backbone Vs Ember
+
+Ember.js was released in 2011 as a rebranding of SproutCore 2.0. SproutCore is a slightly older framework, which included its own widget set. In an effort to expose the MVC framework that ran underneath SproutCore, without the need to use these widgets, Ember.js was born. Ember can be downloaded from http://emberjs.com/
+
+Ember is another framework that uses a data binding approach, allowing the view to automatically update when the model changes. This data binding works between models too so that if the data in a related object changes, both are kept in sync.
+Like Backbone, Ember uses a templating library, Handlebars in Embers’ case, to inject model data into the HTML. Ember also introduces a dedicated controller to complete the full MVC stack, but the model layer is represented with simple JavaScript objects.
+The following is an example of a Handlebars template:
+
+```javascript
+<script type="text/x-handlebars" id="index">
+  <h1>Address Book</h1>
+  <ul>
+  {{#each person}}
+    <li>Hello, <b>{{name}}</b>!</li>
+  {{/each}}
+  </ul>
+</script>
+```
+
+Meanwhile, the model and application are created in JavaScript.
+
+```javascript
+App = Ember.Application.create();
+App.Person = Ember.Object.extend({
+  name: null,
+});
+App.IndexRoute = Ember.Route.extend({
+  model: function() {
+    var people = [
+      App.Person.create({
+        name: "James"
+      }),
+      App.Person.create({
+        firstName: "Sarah"
+}) ];
+    return people;
+  }
+});
+```
+
+The amount of JavaScript code required in Ember is similar to that in Backbone. But again, Backbone’s strength is in the dedicated model object.
 
 ### Getting started.
 
