@@ -36,6 +36,20 @@ of data you can model.
 
 >Most other frameworks provide some built-in functionality to update the view when the model changes. Backbone is often considered a lower-level framework because all of this work has to be accomplished by the programmer using additional code. Some may see this as a negative, but it results in a more transparent view into how your application is actually working behind the scenes. Because you write the UI update code yourself, it is easier to debug when there are issues. This level of control is one of the most widely quoted reasons for developers using Backbone.
 
+#### Five reasons to use Backbone
+
+* _Backbone is a library_, not a framework: There’s a subtle difference between libraries and frameworks. Frameworks are very prescriptive about how they are used in your project and usually impose a certain style of coding that might not suit. As you saw in the section comparing different MV* options, Backbone is the option that leaves you with the most freedom, and it can be refactored into any existing JavaScript application without having to overhaul the app in order to utilize the library. Backbone can be extended if you require additional functionality. You can use any templating library alongside Backbone, so if Underscore doesn’t meet your needs or you are familiar with something like Handlebars, you can use that instead. __Because there is no two-way data binding in Backbone by default, you won’t hit any surprise performance issues. The library’s simplicity insulates you from such problems__.
+
+* _JavaScript applications need structure:_ If you want to create commercial-quality JavaScript applications, you need to impose some type of structure. Backbone’s MV* approach suits almost every type of application, helping separate code that deals with the data model and the view. Most client-side applications will deal with a __RESTful API__, and __this is one of the areas that Backbone excels__ at, providing __synchronization functions in your model__ that will implement all create, update, and delete REST calls for that data object. Using a framework like Backbone brings a common, well-defined approach to JavaScript development that the entire project team can easily follow. The best practices that Backbone encourages are easy to maintain.
+
+* Rich documentation and a large user community: Using any new technology can be daunting, but a mature documentation set and a large community base can help take the sting out of this. With Backbone you get this in abundance.
+Pair this with the numerous blogs and tutorials that you will find across the Internet and you know that you’re not alone. There are a huge number of plug-ins and extensions available for Backbone that have been created by the user community.
+
+* _It scales well_, and credible companies are using it: In the previous section we saw just a few big-name companies that use Backbone. The library is not just being used for experimental projects; in the case of Airbnb, Backbone proved to be such a good solution that it is now using it on the __server side__.
+
+* _Your code base is a jQuery mess: Backbone isn’t just for fresh projects._ It’s likely that you have some legacy applications that could use some cleanup. You may have been using jQuery extensively, manipulating the DOM manually and making $.ajax calls. If this is the case, __Backbone can be the perfect replacement__, with the __Backbone.Model object__ enabling you
+to use simpler code to achieve the same results. Don’t forget that you don’t need to use absolutely everything that Backbone provides. You can pick and choose what suits your application at the time.
+
 #### Backbone Vs Knockout
 
 Knockout.js was first released in July 2010, and it follows the MVVM pattern. Unlike Backbone, Knockout provides bindings between sections of the user interface and the underlying data model, resulting in the UI updating dynamically when the model changes. In Backbone, this updating needs to be written by the developer. It can be downloaded from Knockoutjs.com,
