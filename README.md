@@ -50,6 +50,23 @@ Pair this with the numerous blogs and tutorials that you will find across the In
 * _Your code base is a jQuery mess: Backbone isn’t just for fresh projects._ It’s likely that you have some legacy applications that could use some cleanup. You may have been using jQuery extensively, manipulating the DOM manually and making $.ajax calls. If this is the case, __Backbone can be the perfect replacement__, with the __Backbone.Model object__ enabling you
 to use simpler code to achieve the same results. Don’t forget that you don’t need to use absolutely everything that Backbone provides. You can pick and choose what suits your application at the time.
 
+#### Three reasons you might consider not using Backbone
+
+* _Proof-of-concept applications_: Sometimes you just want to get a quick experiment together to prove what a particular user interface could look like. If you’re creating something really simple, it’s likely that Backbone would be too much and that you might get something together faster by using something like AngularJS. If you’re not already up to speed with how Backbone works, some other solutions bring you from zero to app in less time. However, if the proof of concept turns into a real application, it is worth considering Backbone for the real implementation.
+
+* _You’re not comfortable with lower-level JavaScript_: As one of the less opinionated MV* solutions, Backbone leaves a lot of work for the developer to do. The two-way data binding between model and view is one of these tasks. While a lot of the development community
+is happy to write the code for this binding, some may find it a daunting. More opinionated frameworks that give more guidance into the implementation details of the entire application can be useful, but beware of potential performance issues.
+
+* _You are creating a small web page_: Backbone is suitable for developers who are creating web applications, not just trivial web pages. There is no doubt that Backbone would be overkill for something that simple.
+
+##### You should use backbone if any of the following is true:
+
+* You need to make Ajax calls to send and retrieve data from the server
+
+* You have a number of complex view sections on your page
+
+* You are already using a lot of jQuery to manipulate the DOM
+
 #### Backbone Vs Knockout
 
 Knockout.js was first released in July 2010, and it follows the MVVM pattern. Unlike Backbone, Knockout provides bindings between sections of the user interface and the underlying data model, resulting in the UI updating dynamically when the model changes. In Backbone, this updating needs to be written by the developer. It can be downloaded from Knockoutjs.com,
