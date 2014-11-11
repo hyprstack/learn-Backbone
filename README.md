@@ -565,6 +565,51 @@ app.configure(function() {
 //start up the app on port 8080
 app.listen(8080);
 ```
+##### Identifiers
+
+Backbone models have three attributes that deal with uniquely identifying them during data exchange with the server: id, cid, and idattribute.
+The id attribute is a unique string or integer value, just likea primary key in a relational database. This id attribute is useful when retrieving the model from a collection, and it is also used to form part of the URL for the model.
+The cid attribute is generated automatically by Backbone when the model is first created; it can be used to serve as a unique identifier when the model has not yet been saved to the server and does not have its real ID available.
+Sometimes the model you are retrieving from the backend will use a different unique key. For example, the server might use an ISBN as the unique identifier for a book, or a user IDfield might be the identifier used for a User model when saved. The idAttribute attribute allows you to provide a mapping between that key to the ID in your model, meaning that the server will use that attribute to populate the ID.
+
+##### Saving Models
+
+The save function invokes the operation to save the model to the server, invoking the Backbone.sync function. We’ll see later how the sync function can be replaced to provide alternative means of persisting models, but for now we’ll follow the default behavior that’s already built into Backbone.
+Now that we have a back-end service to hook into, we can set the urlRoot attribute of the Model object. Book = Backbone.Model.extend({
+
+urlRoot: 'http://localhost:8080/books/',
+
+This URL tells Backbone where to point when performing any operations that require responses from a back-end service. As our node.js server is running on port 8080 and we’ve set up endpoints to respond from /books/, our URL is constructed as in the previous code listing.
+In cases where the id attribute has not been set and save is called, the model will invoke acreate operation (HTTP POST) on the back-end REST service, while an update (HTTP PUT) operation will be used when the ID has been specified. This is a simple way of ensuring that a single save function can be used regardless of whether your model has beennewly createdor has been edited since last retrieved from the server.
+The save function can be called with no parameters or can take the set of attributes you want to persist to the server, along with an options hash that contains handlers for both success and error cases.
+
+```javascript
+thisBook.save(thisBook.attributes,
+{
+       success: function(model, response, options){
+               console.log('Model saved');
+               console.log('Id: '  +thisBook.get('id'));
+       },
+       error: function(model, xhr, options){
+               console.log('Failed to save model');
+} });
+```
+
+Success and error handlers are important when making calls to remote API endpoints, and you cannot be certain that a call to save a model will always be successful. Once the call is complete and has returned, the appropriate callback will be invoked, either success or error. Don’t forget that calls are made asynchronously, so any lines of code after the save method won’t wait for the save to be completed first.
+The save method will have invoked the following piece of code served up by the Node.js server:
+
+```javascript
+app.post('/books/', function (request, response) {
+   response.header('Access-Control-Allow-Origin', '*');
+   var book = request.body;
+   console.log('Saving book with the following structure ' + JSON.stringify(book));
+   book.id = bookId++;
+   response.send(book);
+});
+```
+
+The most important part of this function is that it provided a new ID for the book and returned the new structure of the book object in JSON format. Now that this book object ID assigned to it, any subsequent save methods will invoke the update operation on the backend.
+Remember that, if specified, the validation function will be called during the execution of save(). If the validation fails, the model will not be sent to the server.
 
 
 ---
