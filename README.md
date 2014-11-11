@@ -627,8 +627,23 @@ error: function(model, response, options){
 
 f the execution of the fetch function detects that there is a difference in the models between the server and client sides, a change event will be triggered. This can be useful when you want to ensure that the application is in sync with the back-end service or when you need to populate your model objects on application start-up.
 
+##### Deleting Models
 
+The final server operation that you may want to carry out is a delete operation to remove the model from the backend.
 
+```javascript
+thisBook.destroy({
+   success: function(model, response, options){
+          console.log('Destroy success');
+   },
+   error: function(model, response, options){
+          console.log('Destroy error');
+   },
+   wait: true
+   });
+```
+
+If the model is new and doesn’t yet exist on the server, the destroy operation will fail. Adding a wait:true option will ensure that the model is successfully removed from the server before it is removed from any Backbone.Collection that contains it on the client side.
 
 ---
 #### Views
