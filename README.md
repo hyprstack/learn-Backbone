@@ -611,6 +611,24 @@ app.post('/books/', function (request, response) {
 The most important part of this function is that it provided a new ID for the book and returned the new structure of the book object in JSON format. Now that this book object ID assigned to it, any subsequent save methods will invoke the update operation on the backend.
 Remember that, if specified, the validation function will be called during the execution of save(). If the validation fails, the model will not be sent to the server.
 
+##### Retrieving Models
+
+If you want to reset the state of your model object to the same as it is on the server side, you can invoke the fetch() function. Again, this function accepts an options hash that includes success and error callbacks.
+
+```javascript
+thisBook.fetch({
+success: function(model, response, options){
+       console.log('Fetch success');
+},
+error: function(model, response, options){
+       console.log('Fetch error');
+} });
+```
+
+f the execution of the fetch function detects that there is a difference in the models between the server and client sides, a change event will be triggered. This can be useful when you want to ensure that the application is in sync with the back-end service or when you need to populate your model objects on application start-up.
+
+
+
 
 ---
 #### Views
