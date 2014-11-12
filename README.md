@@ -646,6 +646,12 @@ thisBook.destroy({
 If the model is new and doesn’t yet exist on the server, the destroy operation will fail. Adding a wait:true option will ensure that the model is successfully removed from the server before it is removed from any Backbone.Collection that contains it on the client side.
 
 ---
+
+#### Collections
+
+
+
+---
 #### Views
 
 >Views in Backbone don't contain HTML markup for your application. Instead they contain the logic
