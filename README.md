@@ -649,7 +649,9 @@ If the model is new and doesn’t yet exist on the server, the destroy operation
 
 #### Collections
 
+> Collections are ordered sets of models. You can bind "change" events to be notified when any model in the collection has been modified, listen for "add" and "remove" events, fetch the collection from the server, and use a full suite of Underscore.js methods.
 
+> Any event that is triggered on a model in a collection will also be triggered on the collection directly, for convenience. This allows you to listen for changes to specific attributes in any model in a collection, for example: documents.on("change:selected", ...)
 
 ---
 #### Views
