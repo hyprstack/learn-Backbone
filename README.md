@@ -653,6 +653,31 @@ If the model is new and doesn’t yet exist on the server, the destroy operation
 
 > Any event that is triggered on a model in a collection will also be triggered on the collection directly, for convenience. This allows you to listen for changes to specific attributes in any model in a collection, for example: documents.on("change:selected", ...)
 
+Collections are sets of Models and are created by extending __Backbone.Collection__.
+
+Normally, when creating a collection you’ll also want to define a property specifying the type of model that your collection will contain, along with any instance properties required.
+
+In the following example, we create a TodoCollection that will contain our Todo models:
+
+```javascript
+var Todo = Backbone.Model.extend({
+  defaults: {
+    title: '',
+    completed: false
+  }
+});
+
+var TodosCollection = Backbone.Collection.extend({
+  model: Todo
+});
+
+var myTodo = new Todo({title:'Read the whole book', id: 2});
+
+// pass array of models on collection instantiation
+var todos = new TodosCollection([myTodo]);
+console.log("Collection size: " + todos.length); // Collection size: 1
+```
+
 ---
 #### Views
 
