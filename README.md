@@ -678,6 +678,56 @@ var todos = new TodosCollection([myTodo]);
 console.log("Collection size: " + todos.length); // Collection size: 1
 ```
 
+##### Adding and removing models
+
+The preceding example populated the collection using an array of models when it was instantiated. After a collection has been created, models can be added and removed using the add() and remove() methods:
+
+```javascript
+var Todo = Backbone.Model.extend({
+  defaults: {
+    title: '',
+    completed: false
+  }
+});
+
+var TodosCollection = Backbone.Collection.extend({
+  model: Todo,
+});
+
+var a = new Todo({ title: 'Go to Jamaica.'}),
+    b = new Todo({ title: 'Go to China.'}),
+    c = new Todo({ title: 'Go to Disneyland.'});
+
+var todos = new TodosCollection([a,b]);
+console.log("Collection size: " + todos.length);
+// Logs: Collection size: 2
+
+todos.add(c);
+console.log("Collection size: " + todos.length);
+// Logs: Collection size: 3
+
+todos.remove([a,b]);
+console.log("Collection size: " + todos.length);
+// Logs: Collection size: 1
+
+todos.remove(c);
+console.log("Collection size: " + todos.length);
+// Logs: Collection size: 0
+```
+Note that __add()__ and __remove()__ accept both individual models and lists of models.
+
+Also note that when using add() on a collection, passing {merge: true} causes duplicate models to have their attributes merged in to the existing models, instead of being ignored.
+
+```javascript
+var items = new Backbone.Collection;
+items.add([{ id : 1, name: "Dog" , age: 3}, { id : 2, name: "cat" , age: 2}]);
+items.add([{ id : 1, name: "Bear" }], {merge: true });
+items.add([{ id : 2, name: "lion" }]); // merge: false
+
+console.log(JSON.stringify(items.toJSON()));
+// [{"id":1,"name":"Bear","age":3},{"id":2,"name":"cat","age":2}]
+```
+
 ---
 #### Views
 
