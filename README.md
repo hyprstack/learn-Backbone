@@ -788,6 +788,27 @@ TodosCollection.add([
 // I should go to Disneyland. Have I done it before? Yeah!
 ```
 
+In addition, we’re also able to bind to a change event to listen for changes to any of the models in the collection.
+
+```javascript
+var TodosCollection = new Backbone.Collection();
+
+// log a message if a model in the collection changes
+TodosCollection.on("change:title", function(model) {
+    console.log("Changed my mind! I should " + model.get('title'));
+});
+
+TodosCollection.add([
+  { title: 'go to Jamaica.', completed: false, id: 3 },
+]);
+
+var myTodo = TodosCollection.get(3);
+
+myTodo.set('title', 'go fishing');
+// Logs: Changed my mind! I should go fishing
+```
+
+
 ---
 #### Views
 
