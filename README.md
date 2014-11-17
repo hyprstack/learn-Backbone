@@ -756,6 +756,17 @@ The value of a model’s idAttribute should be set by the server when the model 
 
 Internally, Backbone.Collection contains an array of models enumerated by their id property, if the model instances happen to have one. When collection.get(id) is called, this array is checked for existence of the model instance with the corresponding id.
 
+```javascript
+// extends the previous example
+
+var todoCid = todos.get(todo2.cid);
+
+// As mentioned in previous example,
+// models are passed by reference
+console.log(todoCid === myTodo); // true
+```
+
+
 ---
 #### Views
 
