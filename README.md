@@ -807,7 +807,35 @@ var myTodo = TodosCollection.get(3);
 myTodo.set('title', 'go fishing');
 // Logs: Changed my mind! I should go fishing
 ```
+jQuery-style event maps of the form __obj.on({click: action})__ can also be used. These can be clearer than needing three separate calls to .on and should align better with the events hash used in Views:
 
+```javascript
+var Todo = Backbone.Model.extend({
+  defaults: {
+    title: '',
+    completed: false
+  }
+});
+
+var myTodo = new Todo();
+myTodo.set({title: 'Buy some cookies', completed: true});
+
+myTodo.on({
+   'change:title' : titleChanged,
+   'change:completed' : stateChanged
+});
+
+function titleChanged(){
+  console.log('The title was changed!');
+}
+
+function stateChanged(){
+  console.log('The state was changed!');
+}
+
+myTodo.set({title: 'Get the groceries'});
+// The title was changed!
+```
 
 ---
 #### Views
