@@ -873,6 +873,12 @@ console.log(TodoCounter.counterB === 1); // true
 
 counterA and counterB should only have been incremented once.
 
+##### Resetting/Refreshing Collections
+
+Rather than adding or removing models individually, you might want to update an entire collection at once. Collection.set() takes an array of models and performs the necessary add, remove, and change operations required to update the collection.
+
+
+
 ---
 #### Views
 
