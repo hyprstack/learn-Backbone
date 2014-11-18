@@ -937,7 +937,27 @@ TodosCollection.reset([
 console.log('Collection size: ' + TodosCollection.length); // Collection size: 1
 ```
 
+Another useful tip is to use reset with no arguments to clear out a collection completely. This is handy when dynamically loading a new page of results where you want to blank out the current page of results.
 
+```javascript
+myCollection.reset();
+```
+Note that using Collection.reset() doesn’t fire any add or remove events. A reset event is fired instead as shown in the previous example. The reason you might want to use this is to perform super-optimized rendering in extreme cases where individual events are too expensive.
+
+__Also note that listening to a reset event, the list of previous models is available in options.previousModels, for convenience.__
+
+```javascript
+var todo = new Backbone.Model();
+var todos = new Backbone.Collection([todo])
+.on('reset', function(todos, options) {
+  console.log(options.previousModels);
+  console.log([todo]);
+  console.log(options.previousModels[0] === todo); // true
+});
+todos.reset([]);
+```
+
+The set() method available for Collections can also be used for “smart” updating of sets of models. This method attempts to perform smart updating of a collection using a specified list of models. When a model in this list isn’t present in the collection, it is added. If it’s present, its attributes will be merged. Models which are present in the collection but not in the list are removed.
 
 ---
 #### Views
