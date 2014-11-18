@@ -877,6 +877,66 @@ counterA and counterB should only have been incremented once.
 
 Rather than adding or removing models individually, you might want to update an entire collection at once. Collection.set() takes an array of models and performs the necessary add, remove, and change operations required to update the collection.
 
+```javascript
+var TodosCollection = new Backbone.Collection();
+
+TodosCollection.add([
+    { id: 1, title: 'go to Jamaica.', completed: false },
+    { id: 2, title: 'go to China.', completed: false },
+    { id: 3, title: 'go to Disneyland.', completed: true }
+]);
+
+// we can listen for add/change/remove events
+TodosCollection.on("add", function(model) {
+  console.log("Added " + model.get('title'));
+});
+
+TodosCollection.on("remove", function(model) {
+  console.log("Removed " + model.get('title'));
+});
+
+TodosCollection.on("change:completed", function(model) {
+  console.log("Completed " + model.get('title'));
+});
+
+TodosCollection.set([
+    { id: 1, title: 'go to Jamaica.', completed: true },
+    { id: 2, title: 'go to China.', completed: false },
+    { id: 4, title: 'go to Disney World.', completed: false }
+]);
+
+// Above logs:
+// Completed go to Jamaica.
+// Removed go to Disneyland.
+// Added go to Disney World.
+```
+
+If you need to simply replace the entire content of the collection then Collection.reset() can be used:
+
+```javascript
+var TodosCollection = new Backbone.Collection();
+
+// we can listen for reset events
+TodosCollection.on("reset", function() {
+  console.log("Collection reset.");
+});
+
+TodosCollection.add([
+  { title: 'go to Jamaica.', completed: false },
+  { title: 'go to China.', completed: false },
+  { title: 'go to Disneyland.', completed: true }
+]);
+
+console.log('Collection size: ' + TodosCollection.length); // Collection size: 3
+
+TodosCollection.reset([
+  { title: 'go to Cuba.', completed: false }
+]);
+// Above logs 'Collection reset.'
+
+console.log('Collection size: ' + TodosCollection.length); // Collection size: 1
+```
+
 
 
 ---
