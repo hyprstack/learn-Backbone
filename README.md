@@ -986,6 +986,12 @@ theBeatles.set([john, paul, george, pete]);
 // Updates any of John, Paul and Georges's attributes that may have
 // changed over the years.
 ```
+#### RESTful persistence
+
+Thus far, all of our example data has been created in the browser. For most single page applications, the models are derived from a data store residing on a server. This is an area in which Backbone dramatically simplifies the code you need to write to perform RESTful synchronization with a server through a simple API on its models and collections.
+
+
+
 
 ---
 #### Views
