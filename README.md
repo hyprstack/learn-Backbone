@@ -1011,6 +1011,34 @@ var todos = new TodosCollection();
 todos.fetch(); // sends HTTP GET to /todos
 ```
 
+##### Saving models to the server
+
+While Backbone can retrieve an entire collection of models from the server at once, updates to models are performed individually using the model’s _save()_ method. When _save()_ is called on a model that was fetched from the server, it constructs a URL by appending the model’s id to the collection’s URL and sends an HTTP PUT to the server. If the model is a new instance that was created in the browser (i.e., it doesn’t have an id) then an HTTP POST is sent to the collection’s URL. _Collections.create()_ can be used to create a new model, add it to the collection, and send it to the server in a single method call.
+
+```javascript
+var Todo = Backbone.Model.extend({
+  defaults: {
+    title: '',
+    completed: false
+  }
+});
+
+var TodosCollection = Backbone.Collection.extend({
+  model: Todo,
+  url: '/todos'
+});
+
+var todos = new TodosCollection();
+todos.fetch();
+
+var todo2 = todos.get(2);
+todo2.set('title', 'go fishing');
+todo2.save(); // sends HTTP PUT to /todos/2
+
+todos.create({title: 'Try out code samples'}); // sends HTTP POST to /todos and adds to collection
+```
+
+As mentioned earlier, a model’s validate() method is called automatically by save() and will trigger an invalid event on the model if validation fails.
 
 ---
 #### Views
