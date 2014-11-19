@@ -1040,6 +1040,38 @@ todos.create({title: 'Try out code samples'}); // sends HTTP POST to /todos and 
 
 As mentioned earlier, a model’s validate() method is called automatically by save() and will trigger an invalid event on the model if validation fails.
 
+##### Deleting models form the server
+
+A model can be removed from the containing collection and the server by calling its _destroy()_ method. Unlike _Collection.remove()_ which only removes a model from a collection, _Model.destroy()_ will also send an HTTP DELETE to the collection’s URL.
+
+```javascript
+var Todo = Backbone.Model.extend({
+  defaults: {
+    title: '',
+    completed: false
+  }
+});
+
+var TodosCollection = Backbone.Collection.extend({
+  model: Todo,
+  url: '/todos'
+});
+
+var todos = new TodosCollection();
+todos.fetch();
+
+var todo2 = todos.get(2);
+todo2.destroy(); // sends HTTP DELETE to /todos/2 and removes from collection
+```
+
+Calling __destroy__ on a __Model__ will return false if the model __isNew__:
+
+```javascript
+var todo = new Backbone.Model();
+console.log(todo.destroy());
+// false
+```
+
 ---
 #### Views
 
