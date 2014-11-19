@@ -990,7 +990,26 @@ theBeatles.set([john, paul, george, pete]);
 
 Thus far, all of our example data has been created in the browser. For most single page applications, the models are derived from a data store residing on a server. This is an area in which Backbone dramatically simplifies the code you need to write to perform RESTful synchronization with a server through a simple API on its models and collections.
 
+##### Fetching models from the server
 
+Collections._fetch()_ retrieves a set of models from the server in the form of a JSON array by sending an HTTP GET request to the URL specified by the collection’s url property (which may be a function). When this data is received, a _set()_ will be executed to update the collection.
+
+```javascript
+var Todo = Backbone.Model.extend({
+  defaults: {
+    title: '',
+    completed: false
+  }
+});
+
+var TodosCollection = Backbone.Collection.extend({
+  model: Todo,
+  url: '/todos'
+});
+
+var todos = new TodosCollection();
+todos.fetch(); // sends HTTP GET to /todos
+```
 
 
 ---
