@@ -1072,6 +1072,25 @@ console.log(todo.destroy());
 // false
 ```
 
+##### Options
+
+Each RESTful API method accepts a variety of options. Most importantly, all methods accept success and error callbacks which can be used to customize the handling of server responses.
+
+Specifying the __{patch: true}__ option to __Model.save()__ will cause it to use HTTP PATCH to send only the changed attributes (i.e partial updates) to the server instead of the entire model i.e __model.save(attrs, {patch: true})__:
+
+```javascript
+// Save partial using PATCH
+model.clear().set({id: 1, a: 1, b: 2, c: 3, d: 4});
+model.save();
+model.save({b: 2, d: 4}, {patch: true});
+console.log(this.syncArgs.method);
+// 'patch'
+```
+
+Similarly, passing the __{reset: true}__ option to __Collection.fetch()__ will result in the collection being updated using __reset()__ rather than __set()__.
+
+See the Backbone.js documentation for full descriptions of the supported options.
+
 ---
 #### Views
 
