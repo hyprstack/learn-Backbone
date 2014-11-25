@@ -1114,7 +1114,9 @@ Note that __Backbone.Events__ is mixed into the __Backbone__ object. Since __Bac
 Backbone.on('event', function() {console.log('Handled Backbone event');});
 Backbone.trigger('event'); // logs: Handled Backbone event
 ```
+##### on(), off() and trigger()
 
+Backbone.Events can give any object the ability to bind and trigger custom events. We can mix this module into any object easily and there isn’t a requirement for events to be declared before being bound to a callback handler.
 
 ---
 #### Views
