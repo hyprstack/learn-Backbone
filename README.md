@@ -16,7 +16,7 @@
 >variations of a pattern known as MVC.
 
 **MVC seperates the concerns in an application into thee parts:**
-- Models represent the domain-specific knowledge and data in an application. Think of this a being a type
+- Models represent the domain-specific knowledge and data in an application. Think of this as being a type
 of data you can model.
 - Views typically constitute the user interface in an application (such as markup and templates). **They observe models.**
 - Controller handles the input and update models.
@@ -174,6 +174,9 @@ The amount of JavaScript code required in Ember is similar to that in Backbone. 
 
 **Backbone models contain data for the application along with the
 logic around this data.**
+
+Beginer tutorial for models:
+http://youtu.be/4t0n5k0X7ow
 
 ##### Creating a model
 
@@ -455,7 +458,7 @@ functionfindBook(id){
    return null;
 }
 
-functionremoveBook(id){
+function removeBook(id){
    varbookIndex = 0;
    for(vari=0; i<books.length; i++){
        if(books[i].id === id){
@@ -652,6 +655,8 @@ If the model is new and doesn’t yet exist on the server, the destroy operation
 > Collections are ordered sets of models. You can bind "change" events to be notified when any model in the collection has been modified, listen for "add" and "remove" events, fetch the collection from the server, and use a full suite of Underscore.js methods.
 
 > Any event that is triggered on a model in a collection will also be triggered on the collection directly, for convenience. This allows you to listen for changes to specific attributes in any model in a collection, for example: documents.on("change:selected", ...)
+
+Beginner tutorial for collections: http://youtu.be/ZnGP9ScI9pc
 
 Collections are sets of Models and are created by extending __Backbone.Collection__.
 
