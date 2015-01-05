@@ -1134,6 +1134,8 @@ Backbone.Events can give any object the ability to bind and trigger custom event
 
 > Any visual element can be a view (example: button, list, even the entire screen). Views can be embeded in views.
 
+Beginner tutorial for views: http://youtu.be/QASCp8PyRXM
+
 **To create a view simple extend *Backbone.View*.**
 
 ```javascript
