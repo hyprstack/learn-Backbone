@@ -2374,3 +2374,6 @@ var SendButtonView = BaseButtonView.extend({ // notice that we extend from BaseB
 - Youtube Backbone tutorial fo beginners - https://www.youtube.com/watch?v=jM8KE_Fa6JI
 - Addy Osmani's book on backbone: http://addyosmani.github.io/backbone-fundamentals/
 - Beginning Backbone.js: Learn how to enrich your javascript stack with backbone.js - by James Surge; Apress
+- Communicate between two views/Better understanding "trigger" - http://lostechies.com/derickbailey/2011/07/19/references-routing-and-the-event-aggregator-coordinating-views-in-backbone-js/
+- The mediator patter - http://addyosmani.com/largescalejavascript/#mediatorpattern
+
